@@ -23,7 +23,7 @@ public abstract class BaseHttpClient {
     protected Response doGetRequest(String path){
         return given()
                 .spec(baseRequestSpec())
-                .post(path)
+                .get(path)
                 .thenReturn();
     }
 

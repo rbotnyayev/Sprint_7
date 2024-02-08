@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -18,5 +19,15 @@ public class Steps {
     protected void deleteCourier(String login, String password){
         String id = courierLogin(login, password).jsonPath().getString("id");
         client.deleteCourier(id);
+    }
+
+    @Step
+    protected Response createOrder(Order order) {
+        return client.orderCreate(order);
+    }
+
+    @Step
+    protected Response getOrderData(int track) {
+        return client.getOrderByTrack(track);
     }
 }

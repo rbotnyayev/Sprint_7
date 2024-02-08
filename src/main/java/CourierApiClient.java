@@ -5,7 +5,7 @@ public class CourierApiClient extends BaseHttpClient {
     private final String COURIER_LOGIN_REQUEST = "api/v1/courier/login";
     private final String DELETE_REQUEST = "api/v1/courier/";
     private final String CREATE_ORDER_REQUEST = "api/v1/orders/";
-    private final String GET_ORDER_BY_TRACK = "v1/orders/track?t=";
+    private final String GET_ORDER_BY_TRACK = "api/v1/orders/track?t=";
 
 
 
@@ -21,11 +21,11 @@ public class CourierApiClient extends BaseHttpClient {
         return doPostRequest(CREATE_ORDER_REQUEST, order);
     }
 
-    public Response getOrderByTrack(String track) {
+    public Response getOrderByTrack(int track) {
        return doGetRequest(GET_ORDER_BY_TRACK + track);
     }
 
-    public Response deleteCourier(String id){
-        return doDeleteRequest(DELETE_REQUEST + id);
+    public void deleteCourier(String id){
+        doDeleteRequest(DELETE_REQUEST + id);
     }
 }
