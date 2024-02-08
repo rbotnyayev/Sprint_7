@@ -1,27 +1,30 @@
-public class Order {
-    String firstName;
-    String lastName;
-    String address;
-    String metroStation;
-    String phone;
-    String rentTIme;
-    String deliveryDate;
-    String comment;
-    String color;
+import java.util.List;
 
-    public Order(String firstName, String lastName, String address, String metroStation, String phone, String rentTIme, String deliveryDate, String comment, String color) {
+public class Order {
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String metroStation;
+    private String phone;
+    private int rentTime;
+    private String deliveryDate;
+    private String comment;
+    private List<String> color;
+
+    public Order(String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.metroStation = metroStation;
         this.phone = phone;
-        this.rentTIme = rentTIme;
+        this.rentTime = rentTime;
         this.deliveryDate = deliveryDate;
         this.comment = comment;
         this.color = color;
     }
 
-    public Order() {
+    public Order(){
+
     }
 
     public String getFirstName() {
@@ -64,12 +67,12 @@ public class Order {
         this.phone = phone;
     }
 
-    public String getRentTIme() {
-        return rentTIme;
+    public int getRentTime() {
+        return rentTime;
     }
 
-    public void setRentTIme(String rentTIme) {
-        this.rentTIme = rentTIme;
+    public void setRentTime(int rentTime) {
+        this.rentTime = rentTime;
     }
 
     public String getDeliveryDate() {
@@ -88,11 +91,11 @@ public class Order {
         this.comment = comment;
     }
 
-    public String getColor() {
+    public List<String> getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(List<String> color) {
         this.color = color;
     }
 }
