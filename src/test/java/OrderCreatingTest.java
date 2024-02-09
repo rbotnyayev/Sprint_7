@@ -2,11 +2,13 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.matcher.ResponseAwareMatcher;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -25,6 +27,7 @@ public class OrderCreatingTest {
     private List<String> color;
     Order order;
     Steps step;
+    Integer trackNum;
 
     public OrderCreatingTest(String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
         this.firstName = firstName;
@@ -41,10 +44,10 @@ public class OrderCreatingTest {
     @Parameterized.Parameters
     public static Object[][] getCreditnails() {
         return new Object[][] {
-                {"John", "Conner", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", List.of("BLACK")},
-                {"John", "Conner", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", List.of("GREY")},
-                {"John", "Conner", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", List.of("BLACK", "GREY")},
-                {"John", "Conner", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", null}
+                {"John", "Connor", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", List.of("BLACK")},
+                {"John", "Connor", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", List.of("GREY")},
+                {"John", "Connor", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", Arrays.asList("BLACK", "GREY")},
+                {"John", "Connor", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", null}
         };
     }
 
@@ -55,17 +58,15 @@ public class OrderCreatingTest {
     }
     @Test
     @DisplayName("Создание заказа")
-    public void testOrderCreation(){
+    public void testOrderCreationWithColorOption(){
         Response response = step.createOrder(order);
-        response
-                .then()
-                .statusCode(201)
-                .and()
-                .body("track", notNullValue());
-
-        int trackNum = response.jsonPath().getInt("track");
+        trackNum = step.getTrackNum(response);
         step.getOrderData(trackNum)
                 .then()
                 .body("order.color", equalTo(color));
+    }
+    @After
+    public void orderCancelling(){
+        step.cancelOrder(trackNum); //Отмена ранее созданного заказа по его трэк-номеру
     }
 }

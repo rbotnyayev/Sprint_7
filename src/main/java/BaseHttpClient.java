@@ -5,6 +5,8 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 
 public abstract class BaseHttpClient {
@@ -20,23 +22,29 @@ public abstract class BaseHttpClient {
                 .build();
     }
 
-    protected Response doGetRequest(String path){
+    protected Response doGetRequest(String path){ //Надстройка для GET-запроса
         return given()
                 .spec(baseRequestSpec())
                 .get(path)
                 .thenReturn();
     }
 
-    protected Response doPostRequest(String path, Object body){
+    protected Response doPostRequest(String path, Object body){ //Надстройка для POST-запроса
         return given()
                 .spec(baseRequestSpec())
                 .body(body)
                 .post(path);
     }
 
-    protected Response doDeleteRequest(String path){
+    protected Response doDeleteRequest(String path){ //Надстройка для DELETE-запроса
         return given()
                 .spec(baseRequestSpec())
                 .delete(path);
+    }
+
+    protected Response doPutRequest(String path){ //Надстройка для PUT-запроса
+        return given()
+                .spec(baseRequestSpec())
+                .put(path);
     }
 }

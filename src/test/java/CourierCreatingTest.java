@@ -1,13 +1,9 @@
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -19,45 +15,49 @@ public class CourierCreatingTest {
     @Before
     public void setUp(){
       step = new Steps();
-    }
+    } //Создаём объект класса с шагами
 
     @Test
     @DisplayName("Создание курьера")
     @Description("Курьера можно создать")
     public void courierCreatingTest(){
-       step.courierCreating(login, password)
+       step.courierCreating(login, password) //Создаём курьера
                .then()
-               .statusCode(201)
+               .statusCode(201) //Проверяем статус-код
                .and()
-               .assertThat().body("ok", equalTo(true));
+               .assertThat().body("ok", equalTo(true)); //Проверяем тело ответа
 
-       step.courierLogin(login, password)
+       step.courierLogin(login, password) //Проверка того, что курьер создан - авторизация
                .then().assertThat()
-               .body("id", notNullValue())
-               .and().statusCode(200);
+               .body("id", notNullValue()) //Ответ с телом id курьера
+               .and().statusCode(200); //Статус-код авторизации
     }
 
     @Test
     @DisplayName("Создание курьера")
     @Description("Нельзя создать двух одинаковых курьеров")
     public void duplicateCourierCreatingTest(){
-        step.courierCreating(login, password);
-        step.courierCreating(login, password)
+        step.courierCreating(login, password); //Создаём курьера
+        step.courierCreating(login, password) //Пытаемся повторно создать курьера
                 .then()
-                .statusCode(409)
+                .statusCode(409) //Статус-код о существуюшем курьере
                 .and()
-                .body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+                .body("message", equalTo("Этот логин уже используется. Попробуйте другой.")); //Тело ответа
     }
 
     @Test
     @DisplayName("Создание курьера")
     @Description("Если одного из полей нет, запрос возвращает ошибку")
     public void testCreatingCourierWithMissingFields(){
-        step.courierCreating(null, password);
+        step.courierCreating(null, password)
+                .then()
+                .statusCode(400)
+                .and()
+                .body("message", equalTo("Недостаточно данных для создания учетной записи")); //Создаём курьера с null вместо логина
     }
 
     @After
-    public void deleteCourier(){
+    public void deleteCourier(){ //Удаляем курьера после каждого тестаового метода
         try {
             step.deleteCourier(login, password);
         } catch (NullPointerException e) {
