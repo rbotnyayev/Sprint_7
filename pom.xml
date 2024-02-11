@@ -23,10 +23,15 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>4.4.0</version>
-            <scope>test</scope>
+            <version>5.2.0</version>
+            <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- JAXB -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -50,12 +55,7 @@
             <artifactId>allure-rest-assured</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
     <build>

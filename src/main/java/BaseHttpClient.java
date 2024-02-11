@@ -5,7 +5,6 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 

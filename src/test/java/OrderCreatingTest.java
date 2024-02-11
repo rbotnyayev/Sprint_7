@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
 
 @RunWith(Parameterized.class)
 public class OrderCreatingTest {
@@ -26,7 +25,7 @@ public class OrderCreatingTest {
     private String comment;
     private List<String> color;
     Order order;
-    Steps step;
+    OrderSteps step;
     Integer trackNum;
 
     public OrderCreatingTest(String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
@@ -41,7 +40,7 @@ public class OrderCreatingTest {
         this.color = color;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name="Тестовые данные, цвет:{8}")
     public static Object[][] getCreditnails() {
         return new Object[][] {
                 {"John", "Connor", "Peterson rd. 32, CA", "5", "+15246852485", 5, "2024-02-10", "Thanx", List.of("BLACK")},
@@ -53,7 +52,7 @@ public class OrderCreatingTest {
 
     @Before
     public void setUp(){
-        step = new Steps();
+        step = new OrderSteps();
         order = new Order(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
     }
     @Test

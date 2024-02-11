@@ -1,8 +1,9 @@
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
-public class Steps {
-    CourierApiClient client = new CourierApiClient();
+
+public class CourierSteps {
+    ProjectApiClient client = new ProjectApiClient();
 
     @Step("Создание курьера")
     protected Response courierCreating(String login, String password) {
@@ -25,30 +26,4 @@ public class Steps {
     protected void deleteCourier(String login, String password){
         client.deleteCourier(getCourierId(login, password));
     }
-
-    @Step("Создание заказа")
-    protected Response createOrder(Order order) {
-        return client.orderCreate(order);
-    }
-    @Step("Получение данных о заказе через его трэк-номер")
-    protected Response getOrderData(int track) {
-        return client.getOrderByTrack(track);
-    }
-
-    @Step("Получение трэк-номера заказа")
-    protected int getTrackNum(Response response){
-        return response.jsonPath().getInt("track");
-    }
-
-    @Step("Получение списка заказов")
-    protected Response getOrdersList(){
-        return client.getOrdersList();
-    }
-
-    @Step("Отмена заказа")
-    protected void cancelOrder(Integer trackNum){
-        client.orderCancelling(trackNum);
-    }
-
-
 }

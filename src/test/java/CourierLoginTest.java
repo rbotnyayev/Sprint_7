@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
@@ -11,11 +12,11 @@ public class CourierLoginTest {
     String login = "trevor";
     String password = "1234";
     String wrongLogin = "franklin"; //неверный логин
-    Steps step;
+    CourierSteps step;
 
     @Before
     public void setUp(){
-        step = new Steps(); //Создаём объект класса с шагами
+        step = new CourierSteps(); //Создаём объект класса с шагами
         step.courierCreating(login, password); //Создаём курьера
     }
 
@@ -25,7 +26,7 @@ public class CourierLoginTest {
     public void courierAuthorizationTest(){
         step.courierLogin(login, password) //Авторизация курьера по логину и паролю
                 .then()
-                .statusCode(200) //Ожидание статус-кода 200
+                .statusCode(SC_OK) //Ожидание статус-кода 200
                 .and()
                 .body("id", notNullValue()); //Проверка, что поле id в теле ответа не пустое
     }
@@ -36,7 +37,7 @@ public class CourierLoginTest {
     public void testAuthorizationWithWrongLogin(){
             step.courierLogin(wrongLogin, password) //Попытка авторизоваться под несуществующим пользователем
                  .then()
-                 .statusCode(404) //Ожидание статус-кода 404
+                 .statusCode(SC_NOT_FOUND) //Ожидание статус-кода 404
                  .and()
                  .body("message", equalTo("Учетная запись не найдена")); //Проверка тела ответа на соответствующий текст
     }
@@ -46,7 +47,7 @@ public class CourierLoginTest {
     public void testAuthorizationWithEmptyLogin(){
         step.courierLogin(null, password) //Попытка авторизации с пустым полем "Логин"
                 .then()
-                .statusCode(400) //Ожидание статус-кода 400
+                .statusCode(SC_BAD_REQUEST) //Ожидание статус-кода 400
                 .and()
                 .body("message", equalTo("Недостаточно данных для входа")); //Проверка тела ответа на соответствующий текст
     }
